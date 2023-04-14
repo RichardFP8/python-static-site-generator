@@ -4,9 +4,8 @@ from pathlib import Path  # subclass of Pure Path: concrete Path; are some metho
 class Site:
 
     def __init__(self, source, dest):
-        # path objects are either Windows/Poxis Paths based on the argument passed to it else NotImplementedError
-        self.source = source.Path()
-        self.dest = dest.Path()
+        self.source = Path(source)
+        self.dest = Path(dest)
 
     def create_dir(self, path):
         # second part of path is relative to self.source so pass in self.source to a Path method

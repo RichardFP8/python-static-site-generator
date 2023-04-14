@@ -6,12 +6,8 @@ def main(source="content", dest="dist"):
     """Captures command line arguments: Kwargs:
         source: default is 'content'
         dest: default is 'dist' """
-    config = {
-        "source": source,
-        "dest": dest
-    }
-    site = Site(**config)
-    site.build()
-    
+    config = {"source": source, "dest": dest}
+    Site(**config).build()
+
 
 typer.run(main)
