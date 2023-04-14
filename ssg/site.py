@@ -3,9 +3,10 @@ from pathlib import Path  # subclass of Pure Path: concrete Path; are some metho
 
 class Site:
 
-    def __init__(self, source, dest):
+    def __init__(self, source, dest, parsers=None):
         self.source = Path(source)
         self.dest = Path(dest)
+        self.parsers = parsers or []
 
     def create_dir(self, path):
         # second part of path is relative to self.source so pass in self.source to a Path method
@@ -25,3 +26,19 @@ class Site:
             # if the path points to a directory or if is a symbolic link pointing to a directory
             if path.is_dir():
                 self.create_dir(path)
+
+            elif path.is_file():
+                self.run_parser(path)
+
+    def load_parser(self, extension):
+        for parser in self.parsers:
+            if parser.valid_extension(extension):
+                return parser
+
+    def run_parser(self, path):
+        parser = self.load_parser(path.suffix)
+
+        if parser is not None:
+            parser.parse(path, source, dest)
+        else:
+            print("Not implemented")
